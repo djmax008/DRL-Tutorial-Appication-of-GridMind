@@ -1,0 +1,24 @@
+I. Install Linux Environment
+
+  1. How to install Ubuntu 16.04 system: https://www.youtube.com/watch?v=qNeJvujdB-0
+      Turn Off Fast Startup: http://www.tenforums.com/tutorials/41
+      Rufus: https://rufus.akeo.ie/
+      Ubuntu: http://www.ubuntu.com/
+  
+  2. How to Install Centos7 system: https://www.youtube.com/watch?v=IXW2Fbz-WEc&t=803s
+      Centos: https://www.centos.org/download/    (Download Everything or dvd iso)
+
+II. Install Python Environment
+  1. Download Anaconda 3: https://www.continuum.io/downloads
+  2. Install Anaconda: $ bash Anaconda3-4.3.1-Linux-x86_64.sh
+
+III. Install TensorFlow
+  https://www.youtube.com/watch?v=t_pxnHpRszg&t=158s
+  $ conda create -n tensorflow python =3.6
+  $ source activate tensorflow
+  $ conda install -c conda-forge tensorflow
+
+IV. Install pip and Other Libraries
+If pip isn’t already installed, then first try to bootstrap it from the standard library:
+$ python -m ensurepip --default-pip
+$python -m pip install --upgrade pip setuptools wheel
