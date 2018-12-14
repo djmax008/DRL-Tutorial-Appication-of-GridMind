@@ -1,0 +1,10 @@
+I.	Environment
+The “Environment” is a dynamic system in which the DRL control agent interacts with. For most of available code on Github, since the control target is about video games, the environment has been encapsulated inside the libraries. 
+However, if we want to use DRL in other applications, the environment has to be programmed by ourselves. For example, a power flow solver if we want to control power systems, a microgrid model if we want to control renewables.
+
+II.	DRL Agent
+The DRL agent is the core of a completed project. Different algorithms are implemented in to the DRL agent. Usually, the neural network structure, control action, and cost function etc., are all defined in DRL agent. 
+In general, the specific algorithm defines the structure of specific DRL agent, which needs to be coded by ourselves. But most of updating processes of NN parameters have been provided by libraries such as Tensorflow and Gym, which do not need to be manually programed.
+
+III.	Parser
+The “Parser” is used to transfer the measurements from environment to DRL agent, and then transfer the control action from agent to environment. It is quite important especially when a third-party software is used as environment instead of Python. 
