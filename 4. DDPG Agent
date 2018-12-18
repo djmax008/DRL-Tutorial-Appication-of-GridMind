@@ -109,45 +109,45 @@ class DDPG(object):
     def _build_c(self, s, a, reuse=None, custom_getter=None):                               # DNN of critic: 30 neurons and 2 layers
         trainable = True if reuse is None else False
         with tf.variable_scope('Critic', reuse=reuse, custom_getter=custom_getter):
-            n_l1 = 30                                                                       # ciritic share the network with actor
+            n_l1 = 30                                                                       # critic share the network with actor
             w1_s = tf.get_variable('w1_s', [self.s_dim, n_l1], trainable=trainable)
             w1_a = tf.get_variable('w1_a', [self.a_dim, n_l1], trainable=trainable)
             b1 = tf.get_variable('b1', [1, n_l1], trainable=trainable)
-            net = tf.nn.relu(tf.matmul(s, w1_s) + tf.matmul(a, w1_a) + b1)                  # DNN of actor: 30 neurons and 2 layers
+            net = tf.nn.relu(tf.matmul(s, w1_s) + tf.matmul(a, w1_a) + b1)                  # output layer of critic is linear
             return tf.layers.dense(net, 1, trainable=trainable)  # Q(s,a)
 
 
 ###############################  training  ####################################
 
-env = gym.make(ENV_NAME)
+env = gym.make(ENV_NAME)                             # create an environment using Gym
 env = env.unwrapped
 env.seed(1)
 
-s_dim = env.observation_space.shape[0]
-a_dim = env.action_space.shape[0]
-a_bound = env.action_space.high
+s_dim = env.observation_space.shape[0]               # dimention of state
+a_dim = env.action_space.shape[0]                    # dimention of action
+a_bound = env.action_space.high                      # bound of action
 
 ddpg = DDPG(a_dim, s_dim, a_bound)
 
-var = 3  # control exploration
+var = 3                                              # control exploration (add noises in action)  
 t1 = time.time()
 for i in range(MAX_EPISODES):
-    s = env.reset()
+    s = env.reset()                                  # initialize new environment
     ep_reward = 0
     for j in range(MAX_EP_STEPS):
         if RENDER:
-            env.render()
+            env.render()                             # update elements in environemnt
 
         # Add exploration noise
         a = ddpg.choose_action(s)
         a = np.clip(np.random.normal(a, var), -2, 2)    # add randomness to action selection for exploration
-        s_, r, done, info = env.step(a)
+        s_, r, done, info = env.step(a)                 # obtain new state and corresponding reward
 
         ddpg.store_transition(s, a, r / 10, s_)
 
         if ddpg.pointer > MEMORY_CAPACITY:
             var *= .9995    # decay the action randomness
-            ddpg.learn()
+            ddpg.learn()    # updating networks
 
         s = s_
         ep_reward += r
