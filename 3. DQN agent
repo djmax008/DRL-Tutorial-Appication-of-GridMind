@@ -1,0 +1,71 @@
+There are many materials online available for DQN algorithm.
+I have listed some links that I found very helpful in understanding DQN.
+1.	https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/
+2.	https://medium.com/@jonathan_hui/rl-dqn-deep-q-network-e207751f7ae4
+3.	https://medium.freecodecamp.org/an-introduction-to-deep-q-learning-lets-play-doom-54d02d8017d8
+
+In this article, the code from Morvan Zhou will be used as an example for analyzing the DQN development. 
+The completed code is available online: https://github.com/MorvanZhou/Reinforcement-learning-with-tensorflow/tree/master/contents/5_Deep_Q_Network
+In this program, the DQN algorithm is used to solve the maze problem. Basically, there are three modules in this program: 
+1. DQN_modefied.py (agent); 
+2. maze_env.py (environment); 
+3. run_this.py (execution). 
+
+I will analyze these three modules in detail one by one below. 
+More details can be found in 
+https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/4-2-DQN2/
+https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/4-3-DQN3/
+
+I.	DQN_modefied.py
+
+1.	def __init__(): 
+The parameters of DQN agent, e.g., learning rate, decay rate etc., are defined in this part.
+
+2.	def _build_net(): 
+Two NNs are constructed in this part, i.e., target network and evaluate network. 
+The evaluate network keeps updating in real time along with the dynamic system. 
+The target network is used to restore the historical parameters of evaluate network and is updated periodically. 
+The use of two different NNs at different speed can make the convergence process slower but more table.
+In Grid Mind, only one NN is applied.
+
+3.	def store_transition():
+This function is used to save the information of state-action-reward-next state. It will be used for updating the parameters of NNs.
+
+4.	def choose_action():
+The epsilon-greedy method is used to choose the action.
+In general, if a random number is less than epsilon, than the action is selected with the maximum action value.
+If not, a random action is picked.
+
+5.	def learn():
+The parameter of the target network is updated periodically.
+Based on the random sampling from historical data, the cost function is also updated.
+
+6.	def plot_cost():
+Plot the cost of solving the maze.
+
+II.	maze_env.py
+In this module, the environment that a DRL agent interacting with is defined. 
+In addition, the corresponding rewards are also defined in the environment.
+In this example, a 4X4 maze defined, and the target is to find the exit of the maze.
+In Grid Mind, the environment is a grid simulator, and the target is to regulate the voltage or power.
+More details can be found in this link: 
+https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/4-4-gym/
+
+1.	def __init__():
+The general parameters of maze are defined including the action space and feature space.
+
+2.	def _build_maze ():
+In this function, the structure and corresponding rules of a maze are defined.
+Similar process can be used to define other environment such as a porker game or power system.
+3.	def reset():
+This function is used to initialize a new environment 
+
+4.	def step():
+This function is applied to generate the new state and the corresponding reward when certain action is conducted in the environment.
+
+5.	def render():
+This function is used to update and refresh the environment structure after an action.
+
+III.	run_this.py
+Basically, this module is the main function of the program, which defines the global parameters of this program. 
+Also, it defines how many episodes are used for training, when the agent starts to update its network and when the training process is finished.
